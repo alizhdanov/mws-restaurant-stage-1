@@ -157,7 +157,7 @@ class DBHelper {
    * Restaurant image alt text.
    */
   static imageAltTextForRestaurant(restaurant) {
-    return (`${restaurant.name}'s thumbnail`);
+    return (`${restaurant.name}'s thumbnails`);
   }
   /**
    * Map marker for a restaurant.
