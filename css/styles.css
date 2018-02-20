@@ -203,9 +203,8 @@ nav h1 a {
   margin: 0;
   font-size: 11pt;
 }
-#restaurants-list li a {
+#restaurants-list li a.link {
   background-color: #6E3200;
-  border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
   font-size: 10pt;
@@ -214,6 +213,12 @@ nav h1 a {
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+  transition: background-color 0.2s ease-in-out;
+}
+
+#restaurants-list li a.link:hover,
+#restaurants-list li a.link:focus {
+    background-color: #9a4803;
 }
 
 /* ====================== Restaurant Details ====================== */
