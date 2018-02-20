@@ -3,7 +3,7 @@ const generateTemplate = ({text, buttons}) => {
     div.classList.add('toast')
     div.innerHTML = `
       <div class="toast-content">${text}</div>
-      ${buttons.map((name) => `<button class="unbutton">${name}</button>`)}
+      ${buttons.map((name) => `<button class="unbutton">${name}</button>`).join('')}
     `
     return div
 };
@@ -11,8 +11,8 @@ const generateTemplate = ({text, buttons}) => {
 class Toast {
     constructor(text, duration, buttons) {
         this.container = generateTemplate({
-            text: text,
-            buttons: buttons
+            text,
+            buttons
         })
 
         this.answer = new Promise((resolve) => {
@@ -42,6 +42,8 @@ class Toast {
         this._answerResolver();
         this._goneResolver();
 
+        this.container.classList.remove('show')
+
         return this.gone;
     };
 }
@@ -54,13 +56,15 @@ class Toasts {
     }
 
     show (message, opts) {
-        opts = Object.assign({}, opts, {
+        opts = Object.assign({}, {
             duration: 0,
             buttons: ['dismiss']
-        });
+        }, opts);
 
         const toast = new Toast(message, opts.duration, opts.buttons);
         this._container.appendChild(toast.container);
+
+        toast.container.classList.add('show')
 
         toast.gone.then(() => {
             toast.container.parentNode.removeChild(toast.container);
