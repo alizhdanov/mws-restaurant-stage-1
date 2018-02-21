@@ -1,8 +1,9 @@
 const generateTemplate = ({text, buttons}) => {
-    const div = document.createElement('div')
-    div.classList.add('toast')
+    const div = document.createElement('div');
+    div.classList.add('toast');
+    div.setAttribute('tabindex', '-1');
     div.innerHTML = `
-      <div class="toast-content">${text}</div>
+      <div id="toast-message" class="toast-content">${text}</div>
       ${buttons.map((name) => `<button class="unbutton">${name}</button>`).join('')}
     `
     return div
@@ -10,6 +11,9 @@ const generateTemplate = ({text, buttons}) => {
 
 class Toast {
     constructor(text, duration, buttons) {
+        this.trapTabKey = this.trapTabKey.bind(this)
+        this.hide = this.hide.bind(this)
+
         this.container = generateTemplate({
             text,
             buttons
@@ -35,6 +39,16 @@ class Toast {
             this._answerResolver(button.textContent);
             this.hide();
         });
+
+        this.focusedElementBeforeModal = document.activeElement;
+        this.container.addEventListener('keydown', this.trapTabKey);
+        const focusableElementsString = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]';
+        let focusableElements = this.container.querySelectorAll(focusableElementsString);
+        // Convert NodeList to Array
+        focusableElements = Array.prototype.slice.call(focusableElements);
+
+        this.firstTabStop = focusableElements[0];
+        this.lastTabStop = focusableElements[focusableElements.length - 1];
     }
 
     hide () {
@@ -42,16 +56,46 @@ class Toast {
         this._answerResolver();
         this._goneResolver();
 
-        this.container.classList.remove('show')
+        this.container.classList.remove('show');
+
+        this.focusedElementBeforeModal.focus();
 
         return this.gone;
     };
+
+    trapTabKey (e) {
+        // Check for TAB key press
+        if (e.keyCode === 9) {
+
+            // SHIFT + TAB
+            if (e.shiftKey) {
+                if (document.activeElement === this.firstTabStop) {
+                    e.preventDefault();
+                    this.lastTabStop.focus();
+                }
+
+                // TAB
+            } else {
+                if (document.activeElement === this.lastTabStop) {
+                    e.preventDefault();
+                    this.firstTabStop.focus();
+                }
+            }
+        }
+
+        // ESCAPE
+        if (e.keyCode === 27) {
+            this.hide();
+        }
+    }
 }
 
 class Toasts {
     constructor(appendToEl) {
         this._container = document.createElement('div');
         this._container.classList.add('toasts');
+        this._container.setAttribute('role', 'alertdialog')
+        this._container.setAttribute('aria-labelledby', 'toast-message')
         appendToEl.appendChild(this._container);
     }
 
@@ -64,7 +108,11 @@ class Toasts {
         const toast = new Toast(message, opts.duration, opts.buttons);
         this._container.appendChild(toast.container);
 
-        toast.container.classList.add('show')
+        toast.container.classList.add('show');
+
+        debugger
+
+        toast.firstTabStop.focus()
 
         toast.gone.then(() => {
             toast.container.parentNode.removeChild(toast.container);
