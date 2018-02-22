@@ -140,7 +140,7 @@ createRestaurantHTML = (restaurant) => {
   li.innerHTML = `
     <article>
         <a href="${DBHelper.urlForRestaurant(restaurant)}"><img class="restaurant-img" src="${DBHelper.imageUrlForRestaurant(restaurant)}" alt="${DBHelper.imageAltTextForRestaurant(restaurant)}"></a>
-        <h1><a href="${DBHelper.urlForRestaurant(restaurant)}">${restaurant.name}</a></h1>
+        <h3><a href="${DBHelper.urlForRestaurant(restaurant)}">${restaurant.name}</a></h3>
         <address>
             <p>${restaurant.neighborhood}</p>
             <p>${restaurant.address}</p>
