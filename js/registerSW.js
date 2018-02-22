@@ -50,4 +50,4 @@ const registerServiceWorker = () => {
     });
 };
 
-// registerServiceWorker();
+registerServiceWorker();
