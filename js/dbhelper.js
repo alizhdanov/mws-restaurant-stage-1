@@ -1,6 +1,9 @@
 /**
  * Common database helper functions.
  */
+
+const Store = new Map()
+
 class DBHelper {
 
   /**
@@ -18,9 +21,10 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(params) {
-    let query = '';
-    if(params && Object.keys(params)) {
-      query = '?';
+    let query = this.DATABASE_URL;
+    if(params && Object.keys(params).length) {
+      console.log(params)
+      query += '?';
       const paramsArray = [];
       for(let key in params) {
         paramsArray.push(`${key}=${params[key]}`)
@@ -29,9 +33,17 @@ class DBHelper {
       query += paramsArray.join('&')
     }
 
-    return fetch(this.DATABASE_URL + query)
-      .then(res => res.json())
-      .catch(err => { throw Error(err) })
+    if(Store.has(query)) {
+      return Promise.resolve(Store.get(query))
+    } else {
+      return fetch(query)
+        .then(res => res.json())
+        .then(res => {
+          Store.set(query, res)
+          return res
+        })
+        .catch(err => { throw Error(err) })
+    }
   }
 
   /**
@@ -51,7 +63,7 @@ class DBHelper {
     // Fetch all restaurants  with proper error handling
     this.fetchRestaurants({ cousine_type: cuisine })
       .then(restaurants => callback(null, restaurants))
-      .catch(err => callback(error, null))
+      .catch(err => callback(err, null))
   }
 
   /**
@@ -71,7 +83,7 @@ class DBHelper {
 
     this.fetchRestaurants({ neighborhood })
       .then(restaurants => callback(null, restaurants))
-      .catch(err => callback(error, null))
+      .catch(err => callback(err, null))
   }
 
   /**
@@ -106,7 +118,7 @@ class DBHelper {
 
     this.fetchRestaurants(params)
       .then(restaurants => callback(null, restaurants))
-      .catch(err => callback(error, null))
+      .catch(err => callback(err, null))
   }
 
   /**
