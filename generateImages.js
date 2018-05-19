@@ -10,7 +10,7 @@ const makePlaceholder = filename => {
 
   const newFilename = filename.replace('jpg', 'svg');
 
-  fs.writeFile(path.join('img', newFilename), newFilename, err => {
+  fs.writeFile(path.join('img', newFilename), file.final_svg, 'utf-8', err => {
     if (err) throw err;
     console.log(`${filename} has been saved!`);
   });

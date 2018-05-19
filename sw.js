@@ -1,4 +1,4 @@
-const staticCacheName = 'restaurants-static-v4';
+const staticCacheName = 'restaurants-static-v6';
 const contentImgsCache = 'restaurants-imgs-v1';
 const allCaches = [staticCacheName, contentImgsCache];
 
@@ -47,15 +47,6 @@ self.addEventListener('fetch', event => {
       event.respondWith(servePhoto(event.request));
       return;
     }
-
-    // if (requestUrl.pathname.includes('/restaurant.html')) {
-    //   event.respondWith(
-    //     caches.match(event.request, { ignoreSearch: true }).then(response => {
-    //       return response || fetch(event.request);
-    //     })
-    //   );
-    //   return;
-    // }
   }
 
   event.respondWith(

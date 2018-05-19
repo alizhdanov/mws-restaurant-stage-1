@@ -106,6 +106,7 @@ updateRestaurants = () => {
       } else {
         resetRestaurants(restaurants);
         fillRestaurantsHTML();
+        setLazyLoader();
       }
     }
   );
@@ -142,16 +143,22 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = restaurant => {
   const li = document.createElement('li');
+  const src = DBHelper.imageUrlForRestaurant(restaurant);
+  const lazySrc = src.replace(/jpe?g|png/, 'svg');
   li.innerHTML = `
     <article>
-        <a href="${DBHelper.urlForRestaurant(
-          restaurant
-        )}"><img class="restaurant-img" src="${DBHelper.imageUrlForRestaurant(
-    restaurant
-  )}" alt="${DBHelper.imageAltTextForRestaurant(restaurant)}"></a>
-        <h3><a href="${DBHelper.urlForRestaurant(restaurant)}">${
-    restaurant.name
-  }</a></h3>
+        <a href="${DBHelper.urlForRestaurant(restaurant)}">
+          <img 
+                class="restaurant-img lazy" 
+                src="${lazySrc}" 
+                data-src="${src}"
+                alt="${DBHelper.imageAltTextForRestaurant(restaurant)}">
+        </a>
+        <h3>
+        <a href="${DBHelper.urlForRestaurant(restaurant)}">
+          ${restaurant.name}
+        </a>
+        </h3>
         <address>
             <p>${restaurant.neighborhood}</p>
             <p>${restaurant.address}</p>
@@ -177,4 +184,28 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     });
     self.markers.push(marker);
   });
+};
+
+setLazyLoader = () => {
+  var lazyImages = [].slice.call(document.querySelectorAll('img.lazy'));
+
+  if ('IntersectionObserver' in window) {
+    let lazyImageObserver = new IntersectionObserver(function(
+      entries,
+      observer
+    ) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target;
+          lazyImage.src = lazyImage.dataset.src;
+          lazyImage.classList.remove('lazy');
+          lazyImageObserver.unobserve(lazyImage);
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage);
+    });
+  }
 };
