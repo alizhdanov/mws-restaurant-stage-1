@@ -2,6 +2,8 @@ const generateTemplate = ({ text, buttons }) => {
   const div = document.createElement('div');
   div.classList.add('toast');
   div.setAttribute('tabindex', '-1');
+  div.setAttribute('role', 'alertdialog');
+  div.setAttribute('aria-labelledby', 'toast-message');
   div.innerHTML = `
       <div id="toast-message" class="toast-content">${text}</div>
       ${buttons
@@ -98,8 +100,6 @@ class Toasts {
   constructor(appendToEl) {
     this._container = document.createElement('div');
     this._container.classList.add('toasts');
-    this._container.setAttribute('role', 'alertdialog');
-    this._container.setAttribute('aria-labelledby', 'toast-message');
     appendToEl.appendChild(this._container);
   }
 
