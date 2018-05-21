@@ -22,7 +22,7 @@ const updateReady = worker => {
 const registerServiceWorker = () => {
   if (!navigator.serviceWorker) return;
 
-  navigator.serviceWorker.register('/sw.js').then(reg => {
+  navigator.serviceWorker.register('/sw.js', { scope: './' }).then(reg => {
     if (!navigator.serviceWorker.controller) {
       return;
     }

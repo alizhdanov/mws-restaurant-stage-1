@@ -18,7 +18,9 @@
     "url": "https://github.com/makedonec88/mws-restaurant-stage-1/issues"
   },
   "homepage": "https://github.com/makedonec88/mws-restaurant-stage-1#readme",
-  "dependencies": {},
+  "dependencies": {
+    "critical": "^1.3.2"
+  },
   "devDependencies": {
     "sqip": "^0.3.3"
   }
