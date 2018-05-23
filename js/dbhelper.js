@@ -60,7 +60,7 @@ class DBHelper {
       return promise.then(res => {
         Store.set(query, res);
         console.log(res);
-        idbRestaraunts.set(query, res); // todo try to fix it
+        idbRestaraunts.set(query, res);
         return res;
       });
     }
