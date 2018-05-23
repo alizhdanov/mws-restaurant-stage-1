@@ -1,4 +1,4 @@
-const staticCacheName = 'restaurants-static-v456';
+const staticCacheName = 'restaurants-static-v456'; // yeah I've actually put so much affort
 const contentImgsCache = 'restaurants-imgs-v1';
 const allCaches = [staticCacheName, contentImgsCache];
 
