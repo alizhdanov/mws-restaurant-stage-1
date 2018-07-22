@@ -15,7 +15,7 @@ npm install
 
 # Project is ready for use. In case you've made some changes, you might be needed to build it again.
 # !build!
-npm run build
+npm run gulp
 
 # start python server
 npm start

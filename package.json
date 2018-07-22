@@ -4,7 +4,7 @@
   "description": "---\r #### _Three Stage Course Material Project - Restaurant Reviews_",
   "main": "sw.js",
   "scripts": {
-    "start": "python -m SimpleHTTPServer 8000",
+    "start": "pushd dist/; python -m SimpleHTTPServer 8000; popd;",
     "dev": "webpack --config webpack.dev.js",
     "prod": "webpack --config webpack.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1",
