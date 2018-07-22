@@ -8,7 +8,7 @@ GoogleMapsLoader.KEY = 'AIzaSyC0SKLqoNyihvyvXcg1LuusMewXaFNFvJA';
  * RegisterSW
  */
     // TODO: uncoment
-registerSW();
+// registerSW();
 
 // TODO: globals change to regular constatns? But in this case fix name colisions
 const globals = {

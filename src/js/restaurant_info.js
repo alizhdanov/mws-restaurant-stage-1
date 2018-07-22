@@ -3,7 +3,7 @@ import DBHelper from './dbhelper';
 
 const globals = {
   restaurant: undefined,
-    map: undefined,
+  map: undefined,
 };
 
 /**
@@ -168,4 +168,23 @@ fetchRestaurantFromURL((error, restaurant) => {
         });
 
     }
+});
+
+const form = document.getElementById('submit-review');
+
+form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  const {
+    name: { value: name },
+    rating: { value: rating },
+    comments: { value: comments }
+} = form.elements;
+  const id = getParameterByName('id');
+
+    console.log({
+        "restaurant_id": id,
+        "name": name,
+        "rating": rating,
+        "comments": comments,
+    })
 });
