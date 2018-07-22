@@ -1,0 +1,6 @@
+{
+  "cleanUrls": false,
+  "redirects": [
+    { "source": "/restaurant.html", "destination": "/restaurant" }
+  ]
+}
