@@ -38,6 +38,21 @@ gulp.task('js', () => {
         .pipe(gulp.dest(distPath));
 });
 
+gulp.task('move', () => {
+    return gulp.src([
+        `${srcPath}/sw.js`,
+        `${srcPath}/manifest.webmanifest`,
+    ])
+    .pipe(gulp.dest(distPath))
+});
+
+gulp.task('moveImg', () => {
+    return gulp.src([
+        `${srcPath}/img/*`,
+    ])
+        .pipe(gulp.dest(`${distPath}/img/`))
+});
+
 // Images!!!!
 gulp.task('images', () => {
     return gulp.src('images/*.{png,jpg}')
@@ -52,7 +67,7 @@ gulp.task('images', () => {
     // resize - gulp-responsive
 });
 
-gulp.task('default', gulp.parallel('html', 'css', 'js', (done) => {
+gulp.task('default', gulp.parallel('html', 'css', 'js', 'move', 'moveImg', (done) => {
     console.log('finished');
     done();
 }));

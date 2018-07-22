@@ -20,7 +20,7 @@ const makePlaceholder = filename => {
   });
 };
 
-fs.readdir('./img/', (err, files) => {
+fs.readdir('./src/img/', (err, files) => {
   files
     .filter(file => file.endsWith('jpg'))
     .forEach(file => makePlaceholder(file));
