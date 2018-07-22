@@ -75,6 +75,10 @@ section {
   text-align: center;
   text-transform: uppercase;
 }
+
+#footer a {
+  color: #ff9a47;
+}
 /* ====================== Navigation ====================== */
 nav.main-nav {
   width: 100%;
@@ -135,6 +139,20 @@ nav.main-nav h1 a {
   height: 400px;
   width: 100%;
   background-color: #ccc;
+  position: relative;
+}
+
+#load-map {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media screen and (min-width: 992px) {
+  #load-map {
+    display: none;
+  }
 }
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
@@ -320,18 +338,21 @@ nav.main-nav h1 a {
   text-transform: uppercase;
 }
 #restaurant-container,
-#reviews-container {
+#reviews-container,
+#review-form {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
   padding: 60px 40px 30px;
   width: 50%;
 }
-#reviews-container {
+#reviews-container,
+#review-form {
   padding: 30px 40px 80px;
 }
 @media screen and (max-width: 800px) {
   #restaurant-container,
-  #reviews-container {
+  #reviews-container,
+  #review-form {
     width: 100%;
     padding: 3em 2em;
   }

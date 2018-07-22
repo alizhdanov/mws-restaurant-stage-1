@@ -7,8 +7,7 @@ GoogleMapsLoader.KEY = 'AIzaSyC0SKLqoNyihvyvXcg1LuusMewXaFNFvJA';
 /**
  * RegisterSW
  */
-    // TODO: uncoment
-// registerSW();
+registerSW();
 
 // TODO: globals change to regular constatns? But in this case fix name colisions
 const globals = {
@@ -131,7 +130,9 @@ const fillRestaurantsHTML = (restaurants = globals.restaurants) => {
     restaurants.forEach(restaurant => {
         ul.append(createRestaurantHTML(restaurant));
     });
-    addMarkersToMap();
+    if (globals.googleMaps) {
+        addMarkersToMap();
+    }
 };
 
 /**
@@ -217,15 +218,38 @@ let loc = {
     lat: 40.722216,
     lng: -73.987501,
 };
-GoogleMapsLoader.load((google) => {
-    globals.googleMaps = google;
-    globals.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
-        center: loc,
-        scrollwheel: false,
+
+const loadMap = () => {
+    GoogleMapsLoader.load((google) => {
+        globals.googleMaps = google;
+        globals.map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+            center: loc,
+            scrollwheel: false,
+        });
+        updateRestaurants();
     });
+};
+
+if (window.innerWidth >= 991) {
+    GoogleMapsLoader.load((google) => {
+        globals.googleMaps = google;
+        globals.map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+            center: loc,
+            scrollwheel: false,
+        });
+        updateRestaurants();
+    });
+} else {
     updateRestaurants();
-});
+    document.getElementById('load-map').addEventListener('click', (evt) => {
+        evt.preventDefault();
+
+        loadMap();
+    })
+
+}
 
 document.getElementById('cuisines-select').addEventListener('change', () => {
     updateRestaurants();

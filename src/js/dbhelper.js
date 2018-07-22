@@ -44,6 +44,10 @@ export default class DBHelper {
     return `http://localhost:1337/restaurants`;
   }
 
+  static get REVIEWS_URL() {
+    return 'http://localhost:1337/reviews';
+  }
+
   static getData(query) {
     if (Store.has(query)) {
       return Promise.resolve(Store.get(query));
@@ -205,5 +209,18 @@ export default class DBHelper {
       animation: google.maps.Animation.DROP,
     });
     return marker;
+  }
+
+  static fetchReviewsById(id, callback) {
+    return this.getData(`${this.REVIEWS_URL}/?restaurant_id=${id}`)
+      .then(reviews => callback(null, reviews))
+      .catch(err => callback('Does not have reviews', null));
+  }
+
+  static createReview(body) {
+    return fetch(this.REVIEWS_URL, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }).then(res => res.json());
   }
 }
